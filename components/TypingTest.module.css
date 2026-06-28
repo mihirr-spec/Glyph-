@@ -58,6 +58,21 @@
   letter-spacing: 1px;
 }
 
+.problem {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+  border-radius: 4px;
+  padding: 10px 14px;
+}
+.problem strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+
 .langBar {
   display: flex;
   flex-wrap: wrap;

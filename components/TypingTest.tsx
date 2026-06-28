@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Snippet } from "@/lib/snippets";
 import { markSeen, seenIds } from "@/lib/seen";
-import { IDEAS } from "@/lib/ideas";
+import { IDEAS, PROBLEMS } from "@/lib/ideas";
 import styles from "./TypingTest.module.css";
 
 interface Props {
@@ -185,6 +185,7 @@ export default function TypingTest({ snippets, seenKey }: Props) {
   // Show a dash before any keys are pressed so it doesn't read as a real 100%.
   const accuracyLabel = keystrokes > 0 ? `${accuracy}%` : "—";
   const idea = IDEAS[snippet.id];
+  const problem = PROBLEMS[snippet.id];
 
   return (
     <section className={styles.wrap}>
@@ -228,6 +229,12 @@ export default function TypingTest({ snippets, seenKey }: Props) {
             </button>
           ))}
         </div>
+      )}
+
+      {problem && (
+        <p className={styles.problem}>
+          <strong>Problem:</strong> {problem}
+        </p>
       )}
 
       <div className={styles.stats}>

@@ -1,3 +1,52 @@
+// One-line problem statement per snippet, shown above the typing area so the
+// typist knows what the code they're typing actually solves. Keyed by snippet id.
+export const PROBLEMS: Record<string, string> = {
+  // Curated LeetCode-style
+  "two-sum-py":
+    "Return the indices of the two numbers in an array that add up to a target.",
+  "reverse-list-py": "Reverse a singly linked list and return the new head.",
+  "valid-parens-js":
+    "Decide whether a string of brackets is opened and closed correctly.",
+  "max-subarray-js": "Find the largest sum of any contiguous subarray.",
+  "binary-search-java":
+    "Find a target's index in a sorted array, or -1 if it's absent.",
+  "fib-cpp": "Count the distinct ways to climb n stairs taking 1 or 2 steps.",
+  "merge-py": "Merge all overlapping intervals into the fewest non-overlapping ones.",
+  "anagram-js": "Check whether two strings are anagrams of each other.",
+
+  // Concept algorithms
+  "bubble-sort-py": "Sort an array into ascending order.",
+  "selection-sort-py": "Sort an array into ascending order.",
+  "insertion-sort-js": "Sort an array into ascending order.",
+  "quick-sort-py": "Sort an array into ascending order.",
+  "merge-sort-js": "Sort an array into ascending order.",
+  "heap-sort-py": "Sort an array into ascending order.",
+  "counting-sort-py": "Sort an array of bounded non-negative integers.",
+  "shell-sort-js": "Sort an array into ascending order.",
+  "linear-search-py": "Find the index of a target in an array, or -1.",
+  "bfs-py": "Traverse a graph from a start node, visiting nearest nodes first.",
+  "dfs-py": "Traverse a graph from a start node, going as deep as possible first.",
+  "kadane-py": "Find the largest sum of any contiguous subarray.",
+  "fib-dp-py": "Compute the nth Fibonacci number.",
+  "knapsack-py": "Maximize the value of items packed within a weight capacity.",
+  "lcs-py": "Find the length of the longest subsequence common to two strings.",
+  "lis-js": "Find the length of the longest strictly increasing subsequence.",
+  "coin-change-py": "Find the fewest coins that sum to a target amount.",
+  "edit-distance-py":
+    "Find the min insert/delete/replace edits to turn one string into another.",
+  "dijkstra-py": "Find the shortest distances from a start node in a weighted graph.",
+  "topo-sort-py": "Order the nodes of a DAG so every edge points forward.",
+  "union-find-py": "Maintain disjoint sets with fast union and find operations.",
+  "kmp-py": "Find the first index where a pattern occurs inside a text.",
+  "euclid-gcd-py": "Compute the greatest common divisor of two integers.",
+  "sieve-py": "List every prime number up to n.",
+  "fast-power-py": "Compute base^exp (optionally mod m) efficiently.",
+  "floyd-cycle-py": "Detect whether a linked list contains a cycle.",
+  "quickselect-py": "Find the kth smallest element without fully sorting.",
+  "sliding-window-max-py": "Find the maximum of every contiguous window of size k.",
+  "reverse-string-js": "Reverse an array of characters in place.",
+};
+
 // One-line "core idea" per snippet, shown after a problem is completed so the
 // typist can revise the concept on the go. Keyed by snippet id.
 
