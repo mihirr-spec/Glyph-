@@ -1,16 +1,16 @@
 :root {
   --bg: #0a0e0a;
   --bg-elev: #0d120d;
-  --fg: #c4d3c4;
+  --fg: #e0e0e0;
   --muted: #6f8f6f;
   --untyped: #44603f;
   --correct: #7ee787;
   --incorrect: #f7768e;
   --incorrect-bg: #3a1f22;
   --caret: #7ee787;
-  --accent: #7ee787;
-  --accent-dim: #4ea65a;
-  --border: #1d3a23;
+  --accent: #ffffff;
+  --accent-dim: #aaaaaa;
+  --border: #2a2a2a;
   --mono: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code", Consolas,
     "Liberation Mono", Menlo, monospace;
 }
