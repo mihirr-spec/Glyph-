@@ -126,7 +126,7 @@ export default function TypingTest({ snippets, seenKey }: Props) {
   // Live timer
   useEffect(() => {
     if (startedAt === null || finished) return;
-    const id = setInterval(() => setNow(Date.now()), 100);
+    const id = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(id);
   }, [startedAt, finished]);
 
@@ -228,11 +228,11 @@ export default function TypingTest({ snippets, seenKey }: Props) {
     return c;
   }, [typed, target]);
   const wpm = minutes > 0 ? Math.round(correctChars / 5 / minutes) : 0;
+  const wpmLabel = startedAt === null || elapsedMs < 2000 ? "—" : String(wpm);
   const accuracy =
     keystrokes > 0
       ? Math.round(((keystrokes - errors) / keystrokes) * 100)
       : 100;
-  // Show a dash before any keys are pressed so it doesn't read as a real 100%.
   const accuracyLabel = keystrokes > 0 ? `${accuracy}%` : "—";
   const totalWords = Math.round(target.length / 5);
   const typedWords = Math.round(correctChars / 5);
@@ -281,7 +281,7 @@ export default function TypingTest({ snippets, seenKey }: Props) {
       )}
 
       <div className={styles.stats}>
-        <Stat label="wpm" value={wpm} />
+        <Stat label="wpm" value={wpmLabel} />
         <Stat label="acc" value={accuracyLabel} />
         <Stat label="time" value={`${(elapsedMs / 1000).toFixed(1)}s`} />
         <Stat label="words" value={`${typedWords}/${totalWords}`} />
@@ -302,8 +302,7 @@ export default function TypingTest({ snippets, seenKey }: Props) {
             cls = typed[i] === ch ? styles.correct : styles.incorrect;
           }
           const isCaret = i === typed.length;
-          const display =
-            ch === "\n" ? "↵\n" : ch === "\t" ? "→   " : ch;
+          const display = ch === "\t" ? "    " : ch;
           return (
             <span
               key={i}
