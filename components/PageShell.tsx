@@ -62,6 +62,14 @@ export default function PageShell({ builtins }: { builtins: Snippet[] }) {
   const [view, setView] = useState<View>("home");
   const [summary, setSummary] = useState<StatsSummary | null>(null);
   const [runs, setRuns] = useState<Run[]>([]);
+  const [visitors, setVisitors] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch("/api/visitor")
+      .then((r) => r.json())
+      .then((d) => setVisitors(d.count))
+      .catch(() => {});
+  }, []);
   const pool = [...CONCEPTS, ...builtins];
 
   useEffect(() => {
@@ -172,6 +180,11 @@ export default function PageShell({ builtins }: { builtins: Snippet[] }) {
         <footer className="landingFooter">
           <span className="prompt">user@glyph:~$</span> esc to restart · skip to next · indent is automatic
           <span className="blink">&#9612;</span>
+          {visitors !== null && (
+            <span style={{ marginLeft: 24, color: "var(--muted)" }}>
+              {visitors.toLocaleString()} visitors
+            </span>
+          )}
         </footer>
       </div>
     );
