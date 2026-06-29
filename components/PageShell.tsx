@@ -140,12 +140,10 @@ export default function PageShell({ builtins }: { builtins: Snippet[] }) {
             every bracket lives<span className="blink">_</span>
           </p>
           <p className="heroSub">
-            you type 80 wpm on prose. half that on code. oas don&apos;t care
-            about your linkedin speed — they care how fast you can write{" "}
-            <span className="accent">{"{"}</span>brackets
-            <span className="accent">{"}"}</span>, operators, and indented loops
-            under pressure. build the muscle memory for the glyphs you actually
-            use.
+            most devs type 80 wpm on prose but half that on code. every oa has
+            the same patterns — brackets, operators, loops, recursion. the syntax
+            is always the same. glyph builds the muscle memory so your fingers
+            keep up with your brain.
           </p>
 
           <button className="modeCard" style={{ maxWidth: 420 }} onClick={() => setView("practice")}>
