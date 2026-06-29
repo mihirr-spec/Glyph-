@@ -17,6 +17,25 @@ const ASCII = String.raw`
 
 type View = "home" | "concept" | "leetcode" | "stats";
 
+function WpmChart({ runs }: { runs: Run[] }) {
+  const last = runs.slice(-30);
+  if(last.length < 2) return null;
+  const W=600, H=120, PAD=8;
+  const wpms = last.map(r => r.wpm);
+  const hi = Math.max(...wpms, 1);
+  const x = (i: number) => PAD + (i / (last.length - 1)) * (W - PAD * 2);
+  const y = (w: number) => H - PAD - (w / hi) * (H - PAD * 2);
+  const pts = last.map((r,i) => `${x(i)},${y(r.wpm)}`).join(" ");
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="wpmChart" preserveAspectRatio="none">
+      <polyline points={pts} fill="none" stroke="var(--correct)" strokeWidth="1.5" strokeLinejoin="round" />
+      {last.map((r,i) => (
+        <circle key={i} cx={x(i)} cy={y(r.wpm)} r="3" fill="var(--correct)" />
+      ))}
+    </svg>
+  );
+}
+
 function StatPill({ label, value }: { label: string; value: string | number }) {
   return (
     <div className="statPill">
@@ -77,6 +96,11 @@ export default function PageShell({ builtins }: { builtins: Snippet[] }) {
         {runs.length === 0 ? (
           <p className="importInfo">No runs yet. Complete a problem to see your history.</p>
         ) : (
+          <>
+          <div className="chartWrap">
+            <p className="chartLabel">wpm over last {Math.min(runs.length,30)} runs</p>
+            <WpmChart runs={runs} />
+          </div>
           <div className="runsTable">
             <div className="runsHeader">
               <span>problem</span>
@@ -87,7 +111,7 @@ export default function PageShell({ builtins }: { builtins: Snippet[] }) {
             </div>
             {[...runs].reverse().map((r, i) => (
               <div key={i} className="runsRow">
-                <span className="runTitle">{r.title}</span>
+                <span className="runTitle">{r.title}{r.partial ? " ·" : ""}</span>
                 <span className="runWpm">{r.wpm}</span>
                 <span className="runAcc">{r.accuracy}%</span>
                 <span className="runTime">{fmt(r.elapsedMs)}</span>
@@ -95,6 +119,7 @@ export default function PageShell({ builtins }: { builtins: Snippet[] }) {
               </div>
             ))}
           </div>
+          </>
         )}
       </div>
     );

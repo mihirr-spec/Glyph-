@@ -8,6 +8,7 @@ export interface Run {
   accuracy: number;
   elapsedMs: number;
   completedAt: number;
+  partial?: boolean;
 }
 
 export interface StatsSummary {

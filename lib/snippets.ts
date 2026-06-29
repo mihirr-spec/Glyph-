@@ -720,18 +720,113 @@ def max_sliding_window(nums, k):
   },
   {
     id: "reverse-list-cpp",
-    title: "Reverse Linked List",
+    title: "2-Node Linked List Reverse",
     difficulty: "easy",
     language: "cpp",
-    code: `ListNode* reverse_list(ListNode* head){
-    ListNode* prev=nullptr;
+    code: `struct Node{
+    int val;
+    Node* next;
+};
+Node* reverse(Node* head){
+    Node* prev=nullptr;
     while(head){
-        ListNode* nxt=head->next;
+        Node* nxt=head->next;
         head->next=prev;
         prev=head;
         head=nxt;
     }
     return prev;
+}`,
+  },
+  {
+    id: "circle-cpp",
+    title: "Circle Area & Perimeter",
+    difficulty: "easy",
+    language: "cpp",
+    code: `float circle_area(float r){
+    return 3.14159f*r*r;
+}
+float circle_perimeter(float r){
+    return 2*3.14159f*r;
+}`,
+  },
+  {
+    id: "factorial-cpp",
+    title: "Factorial",
+    difficulty: "easy",
+    language: "cpp",
+    code: `int factorial(int n){
+    int res=1;
+    for(int i=2;i<=n;i++) res*=i;
+    return res;
+}`,
+  },
+  {
+    id: "palindrome-cpp",
+    title: "Palindrome Check",
+    difficulty: "easy",
+    language: "cpp",
+    code: `bool is_palindrome(string s){
+    int l=0,r=s.size()-1;
+    while(l<r){
+        if(s[l]!=s[r]) return false;
+        l++;r--;
+    }
+    return true;
+}`,
+  },
+  {
+    id: "sum-digits-cpp",
+    title: "Sum of Digits",
+    difficulty: "easy",
+    language: "cpp",
+    code: `int sum_digits(int n){
+    int s=0;
+    while(n>0){
+        s+=n%10;
+        n/=10;
+    }
+    return s;
+}`,
+  },
+  {
+    id: "fizzbuzz-cpp",
+    title: "FizzBuzz",
+    difficulty: "easy",
+    language: "cpp",
+    code: `string fizzbuzz(int n){
+    if(n%15==0) return "FizzBuzz";
+    if(n%3==0) return "Fizz";
+    if(n%5==0) return "Buzz";
+    return to_string(n);
+}`,
+  },
+  {
+    id: "power-cpp",
+    title: "Fast Power",
+    difficulty: "medium",
+    language: "cpp",
+    code: `int power(int base, int exp){
+    int res=1;
+    while(exp>0){
+        if(exp%2==1) res*=base;
+        base*=base;
+        exp/=2;
+    }
+    return res;
+}`,
+  },
+  {
+    id: "count-vowels-cpp",
+    title: "Count Vowels",
+    difficulty: "easy",
+    language: "cpp",
+    code: `int count_vowels(string s){
+    int cnt=0;
+    for(char c:s)
+        if(c=='a'||c=='e'||c=='i'||c=='o'||c=='u')
+            cnt++;
+    return cnt;
 }`,
   },
   {

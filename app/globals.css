@@ -416,6 +416,22 @@ button {
   font-size: 11px;
 }
 
+/* WPM chart */
+.chartWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.chartLabel {
+  font-size: 11px;
+  color: var(--muted);
+}
+.wpmChart {
+  width: 100%;
+  height: 100px;
+  display: block;
+}
+
 /* Stats strip on landing */
 .statsStrip {
   display: flex;

@@ -80,6 +80,23 @@ export default function TypingTest({ snippets, seenKey }: Props) {
 
   const reset = useCallback(
     (advance = false) => {
+      // Save partial run if user skipped after typing something meaningful.
+      if (advance && startedAt !== null && !finished && typed.length >= 10) {
+        const elapsedMs = Date.now() - startedAt;
+        const mins = elapsedMs / 60000;
+        const cc = typed.split("").filter((c, i) => c === target[i]).length;
+        const ks = keystrokes;
+        const err = errors;
+        saveRun({
+          snippetId: snippet.id,
+          title: snippet.title,
+          wpm: mins > 0 ? Math.round(cc / 5 / mins) : 0,
+          accuracy: ks > 0 ? Math.round(((ks - err) / ks) * 100) : 100,
+          elapsedMs,
+          completedAt: Date.now(),
+          partial: true,
+        });
+      }
       setTyped("");
       setStartedAt(null);
       setFinishedAt(null);
@@ -89,7 +106,8 @@ export default function TypingTest({ snippets, seenKey }: Props) {
       if (advance) setPick((p) => p + 1);
       containerRef.current?.focus();
     },
-    []
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [startedAt, finished, typed, keystrokes, errors, snippet, target]
   );
 
   const shuffle = useCallback(() => {
@@ -215,6 +233,8 @@ export default function TypingTest({ snippets, seenKey }: Props) {
       : 100;
   // Show a dash before any keys are pressed so it doesn't read as a real 100%.
   const accuracyLabel = keystrokes > 0 ? `${accuracy}%` : "—";
+  const totalWords = Math.round(target.length / 5);
+  const typedWords = Math.round(correctChars / 5);
   const idea = IDEAS[snippet.id];
   const problem = PROBLEMS[snippet.id];
 
@@ -263,6 +283,7 @@ export default function TypingTest({ snippets, seenKey }: Props) {
         <Stat label="wpm" value={wpm} />
         <Stat label="acc" value={accuracyLabel} />
         <Stat label="time" value={`${(elapsedMs / 1000).toFixed(1)}s`} />
+        <Stat label="words" value={`${typedWords}/${totalWords}`} />
       </div>
 
       <div
