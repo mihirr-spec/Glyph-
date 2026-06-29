@@ -334,18 +334,18 @@ button {
   text-decoration: underline;
 }
 
-/* Stats button in winBar */
+/* Stats button inside the stats strip */
 .statsBtn {
-  margin-left: auto;
   background: none;
   border: 1px solid var(--border);
   color: var(--muted);
   font-family: var(--mono);
   font-size: 12px;
-  padding: 3px 12px;
+  padding: 10px 20px;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.15s;
+  align-self: stretch;
 }
 .statsBtn:hover {
   border-color: var(--accent);
@@ -381,9 +381,7 @@ button {
 .runsHeader {
   background: var(--bg-elev);
   color: var(--muted);
-  text-transform: uppercase;
   font-size: 11px;
-  letter-spacing: 0.06em;
   border-bottom: 1px solid var(--border);
 }
 .runsRow {
@@ -441,8 +439,6 @@ button {
 .statPillLabel {
   font-size: 11px;
   color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
 }
 
 .steps {

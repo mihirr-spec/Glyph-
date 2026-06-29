@@ -1,6 +1,6 @@
 export type Language = "python" | "javascript" | "java" | "cpp";
 
-export type Difficulty = "Easy" | "Medium" | "Hard";
+export type Difficulty = "easy" | "medium" | "hard";
 
 export interface Snippet {
   id: string;
@@ -26,7 +26,7 @@ export const SNIPPETS: Snippet[] = [
   {
     id: "two-sum-py",
     title: "Two Sum",
-    difficulty: "Easy",
+    difficulty: "easy",
     language: "python",
     url: "https://leetcode.com/problems/two-sum/",
     code: `def two_sum(nums, target):
@@ -40,7 +40,7 @@ export const SNIPPETS: Snippet[] = [
   {
     id: "reverse-list-py",
     title: "Reverse Linked List",
-    difficulty: "Easy",
+    difficulty: "easy",
     language: "python",
     url: "https://leetcode.com/problems/reverse-linked-list/",
     code: `def reverse_list(head):
@@ -55,7 +55,7 @@ export const SNIPPETS: Snippet[] = [
   {
     id: "valid-parens-js",
     title: "Valid Parentheses",
-    difficulty: "Easy",
+    difficulty: "easy",
     language: "javascript",
     url: "https://leetcode.com/problems/valid-parentheses/",
     code: `function isValid(s) {
@@ -74,7 +74,7 @@ export const SNIPPETS: Snippet[] = [
   {
     id: "max-subarray-js",
     title: "Maximum Subarray",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "javascript",
     url: "https://leetcode.com/problems/maximum-subarray/",
     code: `function maxSubArray(nums) {
@@ -90,7 +90,7 @@ export const SNIPPETS: Snippet[] = [
   {
     id: "binary-search-java",
     title: "Binary Search",
-    difficulty: "Easy",
+    difficulty: "easy",
     language: "java",
     url: "https://leetcode.com/problems/binary-search/",
     code: `int search(int[] nums, int target) {
@@ -107,7 +107,7 @@ export const SNIPPETS: Snippet[] = [
   {
     id: "fib-cpp",
     title: "Climbing Stairs",
-    difficulty: "Easy",
+    difficulty: "easy",
     language: "cpp",
     url: "https://leetcode.com/problems/climbing-stairs/",
     code: `int climbStairs(int n) {
@@ -123,7 +123,7 @@ export const SNIPPETS: Snippet[] = [
   {
     id: "merge-py",
     title: "Merge Intervals",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "python",
     url: "https://leetcode.com/problems/merge-intervals/",
     code: `def merge(intervals):
@@ -139,7 +139,7 @@ export const SNIPPETS: Snippet[] = [
   {
     id: "anagram-js",
     title: "Valid Anagram",
-    difficulty: "Easy",
+    difficulty: "easy",
     language: "javascript",
     url: "https://leetcode.com/problems/valid-anagram/",
     code: `function isAnagram(s, t) {
@@ -161,7 +161,7 @@ export const CONCEPTS: Snippet[] = [
   {
     id: "bubble-sort-py",
     title: "Bubble Sort",
-    difficulty: "Easy",
+    difficulty: "easy",
     language: "python",
     code: `def bubble_sort(arr):
     n = len(arr)
@@ -178,7 +178,7 @@ export const CONCEPTS: Snippet[] = [
   {
     id: "selection-sort-py",
     title: "Selection Sort",
-    difficulty: "Easy",
+    difficulty: "easy",
     language: "python",
     code: `def selection_sort(arr):
     n = len(arr)
@@ -193,7 +193,7 @@ export const CONCEPTS: Snippet[] = [
   {
     id: "insertion-sort-js",
     title: "Insertion Sort",
-    difficulty: "Easy",
+    difficulty: "easy",
     language: "javascript",
     code: `function insertionSort(arr) {
   for (let i = 1; i < arr.length; i++) {
@@ -211,7 +211,7 @@ export const CONCEPTS: Snippet[] = [
   {
     id: "quick-sort-py",
     title: "Quick Sort",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "python",
     code: `def quick_sort(arr):
     if len(arr) <= 1:
@@ -225,7 +225,7 @@ export const CONCEPTS: Snippet[] = [
   {
     id: "merge-sort-js",
     title: "Merge Sort",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "javascript",
     code: `function mergeSort(arr) {
   if (arr.length <= 1) return arr;
@@ -244,7 +244,7 @@ export const CONCEPTS: Snippet[] = [
   {
     id: "bfs-py",
     title: "Breadth-First Search",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "python",
     code: `from collections import deque
 
@@ -264,7 +264,7 @@ def bfs(graph, start):
   {
     id: "dfs-py",
     title: "Depth-First Search",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "python",
     code: `def dfs(graph, start):
     visited = set()
@@ -283,7 +283,7 @@ def bfs(graph, start):
   {
     id: "heap-sort-py",
     title: "Heap Sort",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "python",
     code: `import heapq
 
@@ -295,7 +295,7 @@ def heap_sort(arr):
   {
     id: "counting-sort-py",
     title: "Counting Sort",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "python",
     code: `def counting_sort(arr):
     if not arr:
@@ -312,7 +312,7 @@ def heap_sort(arr):
   {
     id: "shell-sort-js",
     title: "Shell Sort",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "javascript",
     code: `function shellSort(arr) {
   const n = arr.length;
@@ -333,7 +333,7 @@ def heap_sort(arr):
   {
     id: "linear-search-py",
     title: "Linear Search",
-    difficulty: "Easy",
+    difficulty: "easy",
     language: "python",
     code: `def linear_search(arr, target):
     for i, value in enumerate(arr):
@@ -344,7 +344,7 @@ def heap_sort(arr):
   {
     id: "kadane-py",
     title: "Kadane's Maximum Subarray",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "python",
     code: `def max_subarray(nums):
     best = cur = nums[0]
@@ -356,7 +356,7 @@ def heap_sort(arr):
   {
     id: "fib-dp-py",
     title: "Fibonacci (Bottom-Up DP)",
-    difficulty: "Easy",
+    difficulty: "easy",
     language: "python",
     code: `def fib(n):
     if n < 2:
@@ -369,7 +369,7 @@ def heap_sort(arr):
   {
     id: "knapsack-py",
     title: "0/1 Knapsack",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "python",
     code: `def knapsack(weights, values, capacity):
     n = len(weights)
@@ -385,7 +385,7 @@ def heap_sort(arr):
   {
     id: "lcs-py",
     title: "Longest Common Subsequence",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "python",
     code: `def lcs(a, b):
     m, n = len(a), len(b)
@@ -401,7 +401,7 @@ def heap_sort(arr):
   {
     id: "lis-js",
     title: "Longest Increasing Subsequence",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "javascript",
     code: `function lengthOfLIS(nums) {
   const tails = [];
@@ -420,7 +420,7 @@ def heap_sort(arr):
   {
     id: "coin-change-py",
     title: "Coin Change",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "python",
     code: `def coin_change(coins, amount):
     dp = [float("inf")] * (amount + 1)
@@ -433,7 +433,7 @@ def heap_sort(arr):
   {
     id: "edit-distance-py",
     title: "Edit Distance",
-    difficulty: "Hard",
+    difficulty: "hard",
     language: "python",
     code: `def edit_distance(a, b):
     m, n = len(a), len(b)
@@ -453,7 +453,7 @@ def heap_sort(arr):
   {
     id: "dijkstra-py",
     title: "Dijkstra's Shortest Path",
-    difficulty: "Hard",
+    difficulty: "hard",
     language: "python",
     code: `import heapq
 
@@ -474,7 +474,7 @@ def dijkstra(graph, start):
   {
     id: "topo-sort-py",
     title: "Topological Sort",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "python",
     code: `from collections import deque
 
@@ -497,7 +497,7 @@ def topological_sort(graph, n):
   {
     id: "union-find-py",
     title: "Union-Find (DSU)",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "python",
     code: `class UnionFind:
     def __init__(self, n):
@@ -524,7 +524,7 @@ def topological_sort(graph, n):
   {
     id: "kmp-py",
     title: "KMP String Matching",
-    difficulty: "Hard",
+    difficulty: "hard",
     language: "python",
     code: `def kmp_search(text, pattern):
     lps = [0] * len(pattern)
@@ -548,7 +548,7 @@ def topological_sort(graph, n):
   {
     id: "euclid-gcd-py",
     title: "Euclidean GCD",
-    difficulty: "Easy",
+    difficulty: "easy",
     language: "python",
     code: `def gcd(a, b):
     while b:
@@ -558,7 +558,7 @@ def topological_sort(graph, n):
   {
     id: "sieve-py",
     title: "Sieve of Eratosthenes",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "python",
     code: `def sieve(n):
     is_prime = [True] * (n + 1)
@@ -572,7 +572,7 @@ def topological_sort(graph, n):
   {
     id: "fast-power-py",
     title: "Fast Exponentiation",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "python",
     code: `def fast_pow(base, exp, mod=None):
     result = 1
@@ -590,7 +590,7 @@ def topological_sort(graph, n):
   {
     id: "floyd-cycle-py",
     title: "Floyd's Cycle Detection",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "python",
     code: `def has_cycle(head):
     slow = fast = head
@@ -604,7 +604,7 @@ def topological_sort(graph, n):
   {
     id: "quickselect-py",
     title: "Quickselect (Kth Smallest)",
-    difficulty: "Medium",
+    difficulty: "medium",
     language: "python",
     code: `def quickselect(arr, k):
     pivot = arr[len(arr) // 2]
@@ -620,7 +620,7 @@ def topological_sort(graph, n):
   {
     id: "sliding-window-max-py",
     title: "Sliding Window Maximum",
-    difficulty: "Hard",
+    difficulty: "hard",
     language: "python",
     code: `from collections import deque
 
@@ -640,7 +640,7 @@ def max_sliding_window(nums, k):
   {
     id: "reverse-string-js",
     title: "Reverse a String In Place",
-    difficulty: "Easy",
+    difficulty: "easy",
     language: "javascript",
     code: `function reverseString(chars) {
   let lo = 0;

@@ -34,18 +34,17 @@
   font-size: 11px;
   padding: 2px 8px;
   border-radius: 999px;
-  text-transform: lowercase;
   letter-spacing: 0.5px;
 }
-.Easy {
+.easy {
   background: #1f3a2c;
   color: var(--correct);
 }
-.Medium {
+.medium {
   background: #3a341f;
   color: #e0af68;
 }
-.Hard {
+.hard {
   background: #3a1f28;
   color: var(--incorrect);
 }

@@ -109,11 +109,6 @@ export default function PageShell({ builtins }: { builtins: Snippet[] }) {
           <span className="dot dot-amber" />
           <span className="dot dot-green" />
           <span className="prompt winPrompt">user@glyph:~$</span>
-          {summary && (
-            <button className="statsBtn" onClick={() => setView("stats")}>
-              stats →
-            </button>
-          )}
         </div>
 
         <div className="landingContent">
@@ -155,6 +150,9 @@ export default function PageShell({ builtins }: { builtins: Snippet[] }) {
               <StatPill label="best wpm" value={summary.bestWpm} />
               <StatPill label="avg wpm" value={summary.avgWpm} />
               <StatPill label="avg acc" value={`${summary.avgAccuracy}%`} />
+              <button className="statsBtn" onClick={() => setView("stats")}>
+                view all →
+              </button>
             </div>
           )}
         </div>
