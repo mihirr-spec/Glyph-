@@ -8,12 +8,18 @@ import LeetCodeImport, { type ImportResult } from "./LeetCodeImport";
 
 interface Props {
   builtins: Snippet[];
+  onViewChange?: (isHome: boolean) => void;
 }
 
 type View = "home" | "concept" | "leetcode";
 
-export default function TrainerApp({ builtins }: Props) {
+export default function TrainerApp({ builtins, onViewChange }: Props) {
   const [view, setView] = useState<View>("home");
+
+  function navigate(next: View) {
+    setView(next);
+    onViewChange?.(next === "home");
+  }
   const [result, setResult] = useState<ImportResult | null>(null);
 
   // Concept mode draws on the standard algorithms plus the curated problems.
@@ -22,7 +28,7 @@ export default function TrainerApp({ builtins }: Props) {
   if (view === "home") {
     return (
       <div className="modeCards">
-        <button className="modeCard" onClick={() => setView("concept")}>
+        <button className="modeCard" onClick={() => navigate("concept")}>
           <span className="modeIcon">🧠</span>
           <span className="modeTitle">Revise a concept</span>
           <span className="modeDesc">
@@ -30,7 +36,7 @@ export default function TrainerApp({ builtins }: Props) {
             works while you build speed.
           </span>
         </button>
-        <button className="modeCard" onClick={() => setView("leetcode")}>
+        <button className="modeCard" onClick={() => navigate("leetcode")}>
           <span className="modeIcon">📝</span>
           <span className="modeTitle">Revise my solved problems</span>
           <span className="modeDesc">
@@ -45,7 +51,7 @@ export default function TrainerApp({ builtins }: Props) {
   if (view === "concept") {
     return (
       <>
-        <button className="backLink" onClick={() => setView("home")}>
+        <button className="backLink" onClick={() => navigate("home")}>
           ← back
         </button>
         <TypingTest snippets={conceptPool} seenKey="concept" />
@@ -59,7 +65,7 @@ export default function TrainerApp({ builtins }: Props) {
       <button
         className="backLink"
         onClick={() => {
-          setView("home");
+          navigate("home");
           setResult(null);
         }}
       >
@@ -108,7 +114,7 @@ export default function TrainerApp({ builtins }: Props) {
           </p>
           <p className="muted">
             The library is growing — meanwhile, try{" "}
-            <button className="linkBtn" onClick={() => setView("concept")}>
+            <button className="linkBtn" onClick={() => navigate("concept")}>
               revising a concept
             </button>
             .

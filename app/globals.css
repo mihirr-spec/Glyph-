@@ -61,28 +61,70 @@ button {
   background: transparent;
 }
 
-.page {
-  min-height: 100vh;
-  padding: 24px 16px;
-  display: flex;
-  justify-content: center;
-}
-
-.window {
-  width: 100%;
-  max-width: 1040px;
+/* ── Landing (full cover) ───────────────────────────────────────────────── */
+.landing {
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  gap: 32px;
 }
 
-/* Terminal window chrome + nav */
+.landingContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 28px;
+  padding: 48px 64px;
+  max-width: 1040px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.landingFooter {
+  color: var(--muted);
+  font-size: 12px;
+  padding: 16px 64px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Practice view ──────────────────────────────────────────────────────── */
+.practiceView {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 32px 64px;
+  max-width: 1040px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 720px) {
+  .landingContent,
+  .landingFooter,
+  .practiceView {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+/* Terminal window chrome */
 .winBar {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding-bottom: 14px;
+  padding: 14px 64px;
   border-bottom: 1px solid var(--border);
+}
+.winPrompt {
+  margin-left: 12px;
+  font-size: 13px;
+}
+@media (max-width: 720px) {
+  .winBar {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
 }
 .dot {
   width: 12px;
@@ -98,24 +140,6 @@ button {
 }
 .dot-green {
   background: #27c93f;
-}
-.winNav {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  margin-left: 12px;
-  flex-wrap: wrap;
-  font-size: 13px;
-}
-.winNav .prompt {
-  margin-right: auto;
-}
-.navItem {
-  color: var(--muted);
-  white-space: nowrap;
-}
-.navItem:hover {
-  color: var(--accent);
 }
 .prompt {
   color: var(--accent);
@@ -191,12 +215,6 @@ button {
   line-height: 1.55;
 }
 
-.footer {
-  color: var(--muted);
-  font-size: 12px;
-  padding-top: 18px;
-  border-top: 1px solid var(--border);
-}
 
 .toggleRow {
   display: flex;
