@@ -49,7 +49,9 @@ export default function TypingTest({ snippets, seenKey }: Props) {
     () => Array.from(new Set(snippets.map((s) => String(s.language)))),
     [snippets]
   );
-  const [langFilter, setLangFilter] = useState<string>("all");
+  const [langFilter, setLangFilter] = useState<string>(() =>
+    langs.includes("cpp") ? "cpp" : "all"
+  );
   const pool = useMemo(
     () =>
       langFilter === "all"
@@ -229,28 +231,19 @@ export default function TypingTest({ snippets, seenKey }: Props) {
         <span className={`${styles.badge} ${styles[snippet.difficulty]}`}>
           {snippet.difficulty}
         </span>
-        <span className={styles.lang}>{snippet.language}</span>
-      </div>
-
-      {langs.length > 1 && (
-        <div className={styles.langBar}>
-          <button
-            className={langFilter === "all" ? styles.langChipActive : styles.langChip}
-            onClick={() => setLangFilter("all")}
+        {langs.length > 1 && (
+          <select
+            className={styles.langSelect}
+            value={langFilter}
+            onChange={(e) => setLangFilter(e.target.value)}
           >
-            all
-          </button>
-          {langs.map((l) => (
-            <button
-              key={l}
-              className={langFilter === l ? styles.langChipActive : styles.langChip}
-              onClick={() => setLangFilter(l)}
-            >
-              {l}
-            </button>
-          ))}
-        </div>
-      )}
+            <option value="all">all</option>
+            {langs.map((l) => (
+              <option key={l} value={l}>{l}</option>
+            ))}
+          </select>
+        )}
+      </div>
 
       {problem && (
         <p className={styles.problem}>
