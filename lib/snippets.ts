@@ -94,12 +94,12 @@ export const SNIPPETS: Snippet[] = [
     language: "java",
     url: "https://leetcode.com/problems/binary-search/",
     code: `int search(int[] nums, int target){
-    int lo = 0, hi = nums.length - 1;
-    while(lo <= hi){
-        int mid = lo + (hi - lo) / 2;
-        if(nums[mid] == target) return mid;
-        if(nums[mid] < target) lo = mid + 1;
-        else hi = mid - 1;
+    int lo=0, hi=nums.length-1;
+    while(lo<=hi){
+        int mid=lo+(hi-lo)/2;
+        if(nums[mid]==target) return mid;
+        if(nums[mid]<target) lo=mid+1;
+        else hi=mid-1;
     }
     return -1;
 }`,
@@ -111,11 +111,11 @@ export const SNIPPETS: Snippet[] = [
     language: "cpp",
     url: "https://leetcode.com/problems/climbing-stairs/",
     code: `int climb_stairs(int n){
-    int a = 1, b = 1;
-    for(int i = 0; i < n; i++){
-        int t = a + b;
-        a = b;
-        b = t;
+    int a=1, b=1;
+    for(int i=0; i<n; i++){
+        int t=a+b;
+        a=b;
+        b=t;
     }
     return a;
 }`,
@@ -651,6 +651,104 @@ def max_sliding_window(nums, k):
     hi--;
   }
   return chars;
+}`,
+  },
+  {
+    id: "binary-search-cpp",
+    title: "Binary Search",
+    difficulty: "easy",
+    language: "cpp",
+    code: `int binary_search(vector<int>& nums, int target){
+    int lo=0, hi=nums.size()-1;
+    while(lo<=hi){
+        int mid=lo+(hi-lo)/2;
+        if(nums[mid]==target) return mid;
+        if(nums[mid]<target) lo=mid+1;
+        else hi=mid-1;
+    }
+    return -1;
+}`,
+  },
+  {
+    id: "two-sum-cpp",
+    title: "Two Sum",
+    difficulty: "easy",
+    language: "cpp",
+    code: `vector<int> two_sum(vector<int>& nums, int target){
+    unordered_map<int,int> seen;
+    for(int i=0; i<nums.size(); i++){
+        int comp=target-nums[i];
+        if(seen.count(comp)) return {seen[comp], i};
+        seen[nums[i]]=i;
+    }
+    return {};
+}`,
+  },
+  {
+    id: "max-subarray-cpp",
+    title: "Maximum Subarray",
+    difficulty: "medium",
+    language: "cpp",
+    code: `int max_subarray(vector<int>& nums){
+    int best=nums[0], cur=nums[0];
+    for(int i=1; i<nums.size(); i++){
+        cur=max(nums[i], cur+nums[i]);
+        best=max(best, cur);
+    }
+    return best;
+}`,
+  },
+  {
+    id: "valid-parens-cpp",
+    title: "Valid Parentheses",
+    difficulty: "easy",
+    language: "cpp",
+    code: `bool is_valid(string s){
+    stack<char> st;
+    for(char c : s){
+        if(c=='(' || c=='[' || c=='{') st.push(c);
+        else{
+            if(st.empty()) return false;
+            if(c==')' && st.top()!='(') return false;
+            if(c==']' && st.top()!='[') return false;
+            if(c=='}' && st.top()!='{') return false;
+            st.pop();
+        }
+    }
+    return st.empty();
+}`,
+  },
+  {
+    id: "reverse-list-cpp",
+    title: "Reverse Linked List",
+    difficulty: "easy",
+    language: "cpp",
+    code: `ListNode* reverse_list(ListNode* head){
+    ListNode* prev=nullptr;
+    while(head){
+        ListNode* nxt=head->next;
+        head->next=prev;
+        prev=head;
+        head=nxt;
+    }
+    return prev;
+}`,
+  },
+  {
+    id: "merge-intervals-cpp",
+    title: "Merge Intervals",
+    difficulty: "medium",
+    language: "cpp",
+    code: `vector<vector<int>> merge(vector<vector<int>>& intervals){
+    sort(intervals.begin(), intervals.end());
+    vector<vector<int>> res;
+    for(auto& iv : intervals){
+        if(res.empty() || iv[0]>res.back()[1])
+            res.push_back(iv);
+        else
+            res.back()[1]=max(res.back()[1], iv[1]);
+    }
+    return res;
 }`,
   },
 ];
