@@ -72,6 +72,7 @@ export default function TypingTest({ snippets, seenKey }: Props) {
   const [keystrokes, setKeystrokes] = useState(0); // raw chars the user pressed
   const [errors, setErrors] = useState(0); // wrong keypresses (for accuracy)
   const containerRef = useRef<HTMLDivElement>(null);
+  const caretRef = useRef<HTMLSpanElement>(null);
 
   const finished = finishedAt !== null;
 
@@ -163,6 +164,11 @@ export default function TypingTest({ snippets, seenKey }: Props) {
   useEffect(() => {
     containerRef.current?.focus();
   }, [pick]);
+
+  // Keep the caret visible as the user types.
+  useEffect(() => {
+    caretRef.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }, [typed]);
 
   // Remember a snippet once it's fully typed so it isn't surfaced again.
   useEffect(() => {
@@ -272,17 +278,21 @@ export default function TypingTest({ snippets, seenKey }: Props) {
           if (i < typed.length) {
             cls = typed[i] === ch ? styles.correct : styles.incorrect;
           }
-          const caret = i === typed.length ? styles.caret : "";
+          const isCaret = i === typed.length;
           const display =
             ch === "\n" ? "↵\n" : ch === "\t" ? "→   " : ch;
           return (
-            <span key={i} className={`${cls} ${caret}`}>
+            <span
+              key={i}
+              ref={isCaret ? caretRef : undefined}
+              className={`${cls} ${isCaret ? styles.caret : ""}`}
+            >
               {display}
             </span>
           );
         })}
         {typed.length >= target.length && (
-          <span className={`${styles.untyped} ${styles.caret}`}>&nbsp;</span>
+          <span ref={caretRef} className={`${styles.untyped} ${styles.caret}`}>&nbsp;</span>
         )}
       </div>
 

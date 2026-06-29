@@ -138,8 +138,14 @@
   word-break: break-word;
   outline: none;
   letter-spacing: 0.3px;
-  min-height: 220px;
+  /* fixed window — scrolls internally, no visible scrollbar */
+  height: 300px;
+  overflow-y: auto;
+  scrollbar-width: none;
   transition: border-color 0.15s;
+}
+.code::-webkit-scrollbar {
+  display: none;
 }
 .code:focus {
   border-color: var(--accent);
