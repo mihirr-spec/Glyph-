@@ -11,8 +11,7 @@
   --accent: #ffffff;
   --accent-dim: #aaaaaa;
   --border: #2a2a2a;
-  --mono: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code", Consolas,
-    "Liberation Mono", Menlo, monospace;
+  --mono: var(--font-mono), "JetBrains Mono", "Fira Code", Consolas, monospace;
 }
 
 * {
