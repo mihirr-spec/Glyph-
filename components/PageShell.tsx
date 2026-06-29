@@ -5,6 +5,7 @@ import type { Snippet } from "@/lib/snippets";
 import { CONCEPTS } from "@/lib/snippets";
 import TypingTest from "./TypingTest";
 import { loadRuns, computeSummary, type StatsSummary, type Run } from "@/lib/stats";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
 const ASCII = String.raw`
   ____ _  __   ______  _   _
@@ -17,21 +18,24 @@ const ASCII = String.raw`
 type View = "home" | "practice" | "stats";
 
 function WpmChart({ runs }: { runs: Run[] }) {
-  const last = runs.slice(-30);
-  if (last.length < 2) return null;
-  const W = 600, H = 120, PAD = 8;
-  const wpms = last.map(r => r.wpm);
-  const hi = Math.max(...wpms, 1);
-  const x = (i: number) => PAD + (i / (last.length - 1)) * (W - PAD * 2);
-  const y = (w: number) => H - PAD - (w / hi) * (H - PAD * 2);
-  const pts = last.map((r, i) => `${x(i)},${y(r.wpm)}`).join(" ");
+  const data = runs.slice(-30).map((r, i) => ({ i: i + 1, wpm: r.wpm, label: r.title }));
+  if (data.length < 2) return null;
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="wpmChart" preserveAspectRatio="none">
-      <polyline points={pts} fill="none" stroke="var(--correct)" strokeWidth="1.5" strokeLinejoin="round" />
-      {last.map((r, i) => (
-        <circle key={i} cx={x(i)} cy={y(r.wpm)} r="3" fill="var(--correct)" />
-      ))}
-    </svg>
+    <ResponsiveContainer width="100%" height={160}>
+      <LineChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
+        <CartesianGrid stroke="#2a2a2a" strokeDasharray="4 4" vertical={false} />
+        <XAxis dataKey="i" tick={{ fill: "#666", fontSize: 11 }} tickLine={false} axisLine={false} />
+        <YAxis tick={{ fill: "#666", fontSize: 11 }} tickLine={false} axisLine={false} />
+        <Tooltip
+          contentStyle={{ background: "#0d120d", border: "1px solid #2a2a2a", borderRadius: 6, fontSize: 12 }}
+          labelStyle={{ color: "#999" }}
+          itemStyle={{ color: "#7ee787" }}
+          formatter={(val) => [`${val} wpm`, ""]}
+          labelFormatter={(i) => data[i - 1]?.label ?? `run ${i}`}
+        />
+        <Line type="monotone" dataKey="wpm" stroke="#7ee787" strokeWidth={2} dot={{ r: 3, fill: "#7ee787", strokeWidth: 0 }} activeDot={{ r: 5 }} />
+      </LineChart>
+    </ResponsiveContainer>
   );
 }
 
