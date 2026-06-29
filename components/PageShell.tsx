@@ -5,7 +5,7 @@ import type { Snippet } from "@/lib/snippets";
 import { CONCEPTS } from "@/lib/snippets";
 import TypingTest from "./TypingTest";
 import LeetCodeImport, { type ImportResult } from "./LeetCodeImport";
-import { loadRuns, computeSummary, type StatsSummary } from "@/lib/stats";
+import { loadRuns, computeSummary, type StatsSummary, type Run } from "@/lib/stats";
 
 const ASCII = String.raw`
   ____ _  __   ______  _   _
@@ -15,7 +15,7 @@ const ASCII = String.raw`
  \____|_____|_| |_|   |_| |_|
 `;
 
-type View = "home" | "concept" | "leetcode";
+type View = "home" | "concept" | "leetcode" | "stats";
 
 function StatPill({ label, value }: { label: string; value: string | number }) {
   return (
@@ -26,15 +26,29 @@ function StatPill({ label, value }: { label: string; value: string | number }) {
   );
 }
 
+function fmt(ms: number) {
+  return (ms / 1000).toFixed(1) + "s";
+}
+
+function fmtDate(ts: number) {
+  const d = new Date(ts);
+  return d.toLocaleDateString(undefined, { month: "short", day: "numeric" }) +
+    " " + d.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+}
+
 export default function PageShell({ builtins }: { builtins: Snippet[] }) {
   const [view, setView] = useState<View>("home");
   const [result, setResult] = useState<ImportResult | null>(null);
   const [summary, setSummary] = useState<StatsSummary | null>(null);
+  const [runs, setRuns] = useState<Run[]>([]);
   const conceptPool = [...CONCEPTS, ...builtins];
 
-  // Load stats from localStorage on mount and whenever we return to home.
   useEffect(() => {
-    if (view === "home") setSummary(computeSummary(loadRuns()));
+    if (view === "home" || view === "stats") {
+      const r = loadRuns();
+      setRuns(r);
+      setSummary(computeSummary(r));
+    }
   }, [view]);
 
   function goHome() {
@@ -42,6 +56,51 @@ export default function PageShell({ builtins }: { builtins: Snippet[] }) {
     setResult(null);
   }
 
+  // ── Stats view ──────────────────────────────────────────────────────────────
+  if (view === "stats") {
+    return (
+      <div className="practiceView">
+        <div className="statsViewBar">
+          <button className="backLink" onClick={goHome}>← back</button>
+          <span className="prompt statsViewTitle">user@glyph:~$ stats</span>
+        </div>
+
+        {summary && (
+          <div className="statsStrip">
+            <StatPill label="runs" value={summary.totalRuns} />
+            <StatPill label="best wpm" value={summary.bestWpm} />
+            <StatPill label="avg wpm" value={summary.avgWpm} />
+            <StatPill label="avg acc" value={`${summary.avgAccuracy}%`} />
+          </div>
+        )}
+
+        {runs.length === 0 ? (
+          <p className="importInfo">No runs yet. Complete a problem to see your history.</p>
+        ) : (
+          <div className="runsTable">
+            <div className="runsHeader">
+              <span>problem</span>
+              <span>wpm</span>
+              <span>acc</span>
+              <span>time</span>
+              <span>date</span>
+            </div>
+            {[...runs].reverse().map((r, i) => (
+              <div key={i} className="runsRow">
+                <span className="runTitle">{r.title}</span>
+                <span className="runWpm">{r.wpm}</span>
+                <span className="runAcc">{r.accuracy}%</span>
+                <span className="runTime">{fmt(r.elapsedMs)}</span>
+                <span className="runDate">{fmtDate(r.completedAt)}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // ── Landing ─────────────────────────────────────────────────────────────────
   if (view === "home") {
     return (
       <div className="landing">
@@ -50,6 +109,11 @@ export default function PageShell({ builtins }: { builtins: Snippet[] }) {
           <span className="dot dot-amber" />
           <span className="dot dot-green" />
           <span className="prompt winPrompt">user@glyph:~$</span>
+          {summary && (
+            <button className="statsBtn" onClick={() => setView("stats")}>
+              stats →
+            </button>
+          )}
         </div>
 
         <div className="landingContent">

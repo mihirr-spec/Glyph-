@@ -338,6 +338,87 @@ button {
   text-decoration: underline;
 }
 
+/* Stats button in winBar */
+.statsBtn {
+  margin-left: auto;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 3px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.statsBtn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Stats view */
+.statsViewBar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.statsViewTitle {
+  font-size: 13px;
+}
+
+.runsTable {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 13px;
+}
+.runsHeader,
+.runsRow {
+  display: grid;
+  grid-template-columns: 1fr 70px 70px 70px 160px;
+  gap: 8px;
+  padding: 10px 16px;
+  align-items: center;
+}
+.runsHeader {
+  background: var(--bg-elev);
+  color: var(--muted);
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--border);
+}
+.runsRow {
+  border-bottom: 1px solid var(--border);
+  color: var(--fg);
+}
+.runsRow:last-child {
+  border-bottom: none;
+}
+.runsRow:hover {
+  background: var(--bg-elev);
+}
+.runTitle {
+  color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.runWpm {
+  color: var(--accent);
+  font-weight: 600;
+}
+.runAcc,
+.runTime {
+  color: var(--muted);
+}
+.runDate {
+  color: var(--muted);
+  font-size: 11px;
+}
+
 /* Stats strip on landing */
 .statsStrip {
   display: flex;
