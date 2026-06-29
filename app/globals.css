@@ -76,9 +76,6 @@ button {
   justify-content: center;
   gap: 20px;
   padding: 32px 64px;
-  max-width: 1040px;
-  width: 100%;
-  margin: 0 auto;
   overflow: hidden;
 }
 
@@ -170,7 +167,6 @@ button {
   color: var(--muted);
   font-size: 14px;
   line-height: 1.6;
-  max-width: 560px;
 }
 .accent {
   color: var(--accent);
