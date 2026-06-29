@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Snippet } from "@/lib/snippets";
 import { CONCEPTS } from "@/lib/snippets";
 import TypingTest from "./TypingTest";
 import LeetCodeImport, { type ImportResult } from "./LeetCodeImport";
+import { loadRuns, computeSummary, type StatsSummary } from "@/lib/stats";
 
 const ASCII = String.raw`
   ____ _  __   ______  _   _
@@ -16,10 +17,25 @@ const ASCII = String.raw`
 
 type View = "home" | "concept" | "leetcode";
 
+function StatPill({ label, value }: { label: string; value: string | number }) {
+  return (
+    <div className="statPill">
+      <span className="statPillValue">{value}</span>
+      <span className="statPillLabel">{label}</span>
+    </div>
+  );
+}
+
 export default function PageShell({ builtins }: { builtins: Snippet[] }) {
   const [view, setView] = useState<View>("home");
   const [result, setResult] = useState<ImportResult | null>(null);
+  const [summary, setSummary] = useState<StatsSummary | null>(null);
   const conceptPool = [...CONCEPTS, ...builtins];
+
+  // Load stats from localStorage on mount and whenever we return to home.
+  useEffect(() => {
+    if (view === "home") setSummary(computeSummary(loadRuns()));
+  }, [view]);
 
   function goHome() {
     setView("home");
@@ -64,6 +80,15 @@ export default function PageShell({ builtins }: { builtins: Snippet[] }) {
               </span>
             </button>
           </div>
+
+          {summary && (
+            <div className="statsStrip">
+              <StatPill label="runs" value={summary.totalRuns} />
+              <StatPill label="best wpm" value={summary.bestWpm} />
+              <StatPill label="avg wpm" value={summary.avgWpm} />
+              <StatPill label="avg acc" value={`${summary.avgAccuracy}%`} />
+            </div>
+          )}
         </div>
 
         <footer className="landingFooter">

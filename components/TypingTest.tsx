@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Snippet } from "@/lib/snippets";
 import { markSeen, seenIds } from "@/lib/seen";
+import { saveRun } from "@/lib/stats";
 import { IDEAS, PROBLEMS } from "@/lib/ideas";
 import styles from "./TypingTest.module.css";
 
@@ -167,6 +168,20 @@ export default function TypingTest({ snippets, seenKey }: Props) {
   useEffect(() => {
     if (finished && seenKey) markSeen(seenKey, snippet.id);
   }, [finished, seenKey, snippet.id]);
+
+  // Persist completed run to localStorage.
+  useEffect(() => {
+    if (!finished || finishedAt === null || startedAt === null) return;
+    saveRun({
+      snippetId: snippet.id,
+      title: snippet.title,
+      wpm,
+      accuracy,
+      elapsedMs: finishedAt - startedAt,
+      completedAt: finishedAt,
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [finished]);
 
   // Stats
   const elapsedMs =
