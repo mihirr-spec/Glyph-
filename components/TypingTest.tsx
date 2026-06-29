@@ -322,27 +322,16 @@ export default function TypingTest({ snippets, seenKey }: Props) {
         </p>
       )}
 
-      {/* Hide live stats once results are showing */}
-      {!isOver && (
-        mode === "time" ? (
-          <div className={styles.stats}>
-            <div className={`${styles.stat} ${remaining !== null && remaining <= 5 ? styles.urgent : ""}`}>
-              <span className={styles.statValue} style={{ fontSize: 36 }}>
-                {remaining ?? timeLimit}
-              </span>
-              <span className={styles.statLabel}>seconds</span>
-            </div>
-            <Stat label="wpm" value={liveTimeWpm > 0 ? String(liveTimeWpm) : "—"} />
-            <Stat label="acc" value={accuracyLabel} />
+      {/* Countdown only in time mode while typing */}
+      {!isOver && mode === "time" && (
+        <div className={styles.stats}>
+          <div className={`${styles.stat} ${remaining !== null && remaining <= 5 ? styles.urgent : ""}`}>
+            <span className={styles.statValue} style={{ fontSize: 36 }}>
+              {remaining ?? timeLimit}
+            </span>
+            <span className={styles.statLabel}>seconds</span>
           </div>
-        ) : (
-          <div className={styles.stats}>
-            <Stat label="wpm" value={wpmLabel} />
-            <Stat label="acc" value={accuracyLabel} />
-            <Stat label="time" value={`${(elapsedMs / 1000).toFixed(1)}s`} />
-            <Stat label="words" value={`${typedWords}/${totalWords}`} />
-          </div>
-        )
+        </div>
       )}
 
       <div
