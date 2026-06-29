@@ -846,4 +846,75 @@ float circle_perimeter(float r){
     return res;
 }`,
   },
+  {
+    id: "bit-power-of-two-cpp",
+    title: "Power of Two Check",
+    difficulty: "easy",
+    language: "cpp",
+    code: `bool is_power_of_two(int n){
+    return n>0&&(n&(n-1))==0;
+}`,
+  },
+  {
+    id: "bit-count-set-cpp",
+    title: "Count Set Bits",
+    difficulty: "easy",
+    language: "cpp",
+    code: `int count_bits(int n){
+    int cnt=0;
+    while(n){
+        n&=n-1;
+        cnt++;
+    }
+    return cnt;
+}`,
+  },
+  {
+    id: "bit-single-number-cpp",
+    title: "Single Number (XOR)",
+    difficulty: "easy",
+    language: "cpp",
+    code: `int single_number(vector<int>& nums){
+    int res=0;
+    for(int n:nums) res^=n;
+    return res;
+}`,
+  },
+  {
+    id: "bit-get-set-clear-cpp",
+    title: "Get / Set / Clear a Bit",
+    difficulty: "easy",
+    language: "cpp",
+    code: `int get_bit(int n, int i){ return (n>>i)&1; }
+int set_bit(int n, int i){ return n|(1<<i); }
+int clear_bit(int n, int i){ return n&~(1<<i); }`,
+  },
+  {
+    id: "bit-xor-swap-cpp",
+    title: "XOR Swap",
+    difficulty: "easy",
+    language: "cpp",
+    code: `void xor_swap(int& a, int& b){
+    a^=b;
+    b^=a;
+    a^=b;
+}`,
+  },
+  {
+    id: "bit-rightmost-cpp",
+    title: "Rightmost Set Bit",
+    difficulty: "easy",
+    language: "cpp",
+    code: `int rightmost_set_bit(int n){
+    return n&(-n);
+}`,
+  },
+  {
+    id: "bit-even-odd-cpp",
+    title: "Even / Odd via Bit",
+    difficulty: "easy",
+    language: "cpp",
+    code: `bool is_odd(int n){ return n&1; }
+bool is_even(int n){ return !(n&1); }`,
+  },
 ];
