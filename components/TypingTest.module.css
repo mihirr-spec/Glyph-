@@ -1,3 +1,41 @@
+.modeBar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.modeSep {
+  color: var(--border);
+  margin: 0 6px;
+  user-select: none;
+}
+.modeBtn,
+.modeActive {
+  background: none;
+  border: none;
+  font-family: var(--mono);
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--muted);
+  transition: color 0.15s;
+}
+.modeBtn:hover:not(:disabled) {
+  color: var(--fg);
+}
+.modeBtn:disabled,
+.modeActive:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+.modeActive {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+.urgent .statValue {
+  color: var(--incorrect) !important;
+}
+
 .wrap {
   width: 100%;
   max-width: 820px;
