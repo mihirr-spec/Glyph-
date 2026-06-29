@@ -342,16 +342,18 @@ button {
 .statsBtn {
   background: none;
   border: none;
-  color: var(--muted);
+  color: var(--accent);
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 13px;
   padding: 0;
   cursor: pointer;
   text-align: left;
-  transition: color 0.15s;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.15s;
 }
 .statsBtn:hover {
-  color: var(--accent);
+  opacity: 0.75;
 }
 
 /* Stats view */
