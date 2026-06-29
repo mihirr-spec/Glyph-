@@ -145,15 +145,17 @@ export default function PageShell({ builtins }: { builtins: Snippet[] }) {
           </div>
 
           {summary && (
-            <div className="statsStrip">
-              <StatPill label="runs" value={summary.totalRuns} />
-              <StatPill label="best wpm" value={summary.bestWpm} />
-              <StatPill label="avg wpm" value={summary.avgWpm} />
-              <StatPill label="avg acc" value={`${summary.avgAccuracy}%`} />
+            <>
+              <div className="statsStrip">
+                <StatPill label="runs" value={summary.totalRuns} />
+                <StatPill label="best wpm" value={summary.bestWpm} />
+                <StatPill label="avg wpm" value={summary.avgWpm} />
+                <StatPill label="avg acc" value={`${summary.avgAccuracy}%`} />
+              </div>
               <button className="statsBtn" onClick={() => setView("stats")}>
-                view all →
+                view full history →
               </button>
-            </div>
+            </>
           )}
         </div>
 

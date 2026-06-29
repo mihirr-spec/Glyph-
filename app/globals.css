@@ -76,6 +76,9 @@ button {
   justify-content: center;
   gap: 20px;
   padding: 32px 64px;
+  max-width: 1040px;
+  width: 100%;
+  margin: 0 auto;
   overflow: hidden;
 }
 
@@ -167,6 +170,7 @@ button {
   color: var(--muted);
   font-size: 14px;
   line-height: 1.6;
+  max-width: 560px;
 }
 .accent {
   color: var(--accent);
@@ -334,21 +338,19 @@ button {
   text-decoration: underline;
 }
 
-/* Stats button inside the stats strip */
+/* Stats link below the strip */
 .statsBtn {
   background: none;
-  border: 1px solid var(--border);
+  border: none;
   color: var(--muted);
   font-family: var(--mono);
   font-size: 12px;
-  padding: 10px 20px;
-  border-radius: 6px;
+  padding: 0;
   cursor: pointer;
-  transition: all 0.15s;
-  align-self: stretch;
+  text-align: left;
+  transition: color 0.15s;
 }
 .statsBtn:hover {
-  border-color: var(--accent);
   color: var(--accent);
 }
 
