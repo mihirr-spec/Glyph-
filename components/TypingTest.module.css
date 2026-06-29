@@ -165,6 +165,8 @@
 
 .caret {
   position: relative;
+  /* trigger scroll ~3 lines before caret reaches the bottom edge */
+  scroll-margin-bottom: 96px;
 }
 .caret::before {
   content: "";
