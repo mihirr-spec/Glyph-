@@ -55,12 +55,16 @@ export default function PageShell({ builtins }: { builtins: Snippet[] }) {
         <div className="landingContent">
           <pre className="ascii" aria-label="Glyph">{ASCII}</pre>
           <p className="heroLead">
-            <span className="accent">&gt;</span> A terminal typing trainer for real
-            developers<span className="blink">_</span>
+            <span className="accent">&gt;</span> Your fingers should know where
+            every bracket lives<span className="blink">_</span>
           </p>
           <p className="heroSub">
-            Practice typing LeetCode-style code solutions. Improve your speed,
-            accuracy, and coding fluency one keystroke at a time.
+            You type 80 WPM on prose. Half that on code. OAs don&apos;t care
+            about your LinkedIn speed — they care how fast you can write{" "}
+            <span className="accent">{"{"}</span>brackets
+            <span className="accent">{"}"}</span>, operators, and indented loops
+            under pressure. Build the muscle memory for the glyphs you actually
+            use.
           </p>
           <div className="modeCards">
             <button className="modeCard" onClick={() => setView("concept")}>

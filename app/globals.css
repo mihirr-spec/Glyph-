@@ -63,7 +63,8 @@ button {
 
 /* ── Landing (full cover) ───────────────────────────────────────────────── */
 .landing {
-  min-height: 100dvh;
+  height: 100dvh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -73,11 +74,12 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 28px;
-  padding: 48px 64px;
+  gap: 20px;
+  padding: 32px 64px;
   max-width: 1040px;
   width: 100%;
   margin: 0 auto;
+  overflow: hidden;
 }
 
 .landingFooter {
