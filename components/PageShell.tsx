@@ -140,10 +140,9 @@ export default function PageShell({ builtins }: { builtins: Snippet[] }) {
             every bracket lives<span className="blink">_</span>
           </p>
           <p className="heroSub">
-            most devs type 80 wpm on prose but half that on code. online
-            assessments don&apos;t care how well you know the algorithm — they
-            care how fast you can type it. glyph builds the muscle memory so
-            your fingers keep up with your brain.
+            online assessments test two things: whether you know the solution,
+            and whether you can type it fast enough. most people train the first
+            and ignore the second. glyph fixes that.
           </p>
 
           <button className="modeCard" style={{ maxWidth: 420 }} onClick={() => setView("practice")}>
