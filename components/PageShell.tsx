@@ -140,9 +140,9 @@ export default function PageShell({ builtins }: { builtins: Snippet[] }) {
             every bracket lives<span className="blink">_</span>
           </p>
           <p className="heroSub">
-            online assessments test two things: whether you know the solution,
-            and whether you can type it fast enough. most people train the first
-            and ignore the second. glyph fixes that.
+            Online assessments test two things: whether you know the solution,
+            and whether you can type it fast enough. Most people train the first
+            and ignore the second. Glyph fixes that.
           </p>
 
           <button className="modeCard" style={{ maxWidth: 420 }} onClick={() => setView("practice")}>
