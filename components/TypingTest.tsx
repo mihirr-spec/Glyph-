@@ -58,35 +58,25 @@ export default function TypingTest({ snippets, seenKey }: Props) {
     [snippets, langFilter]
   );
 
-  // ── Mode ─────────────────────────────────────────────────────────────────────
   const [mode, setMode] = useState<Mode>("snippet");
   const [timeLimit, setTimeLimit] = useState<TimeOption>(30);
 
-  // ── Snippet ordering ─────────────────────────────────────────────────────────
   const [order, setOrder] = useState<number[]>(() => orderUnseenFirst(pool, seenKey));
   const [pick, setPick] = useState(0);
   const snippet = pool[order[pick % order.length]] ?? pool[0];
   const target = snippet.code;
 
-  // ── Typing state ─────────────────────────────────────────────────────────────
   const [typed, setTyped] = useState("");
   const [startedAt, setStartedAt] = useState<number | null>(null);
   const [finishedAt, setFinishedAt] = useState<number | null>(null);
   const [now, setNow] = useState(0);
-  const [keystrokes, setKeystrokes] = useState(0);
-  const [errors, setErrors] = useState(0);
 
-  // ── Time mode ────────────────────────────────────────────────────────────────
+  // Time mode
   const [timeDone, setTimeDone] = useState(false);
   const [timeResult, setTimeResult] = useState<{ wpm: number; accuracy: number; chars: number } | null>(null);
-  // Live display of accumulated correct chars across completed snippets
-  const [accChars, setAccChars] = useState(0);
-  // Refs are the source of truth for accumulation (avoid stale closures)
-  const accCharsRef = useRef(0);
-  const accKeysRef = useRef(0);
-  const accErrsRef = useRef(0);
-  const ksRef = useRef(0);   // keystrokes for current snippet
-  const errRef = useRef(0);  // errors for current snippet
+  const [accChars, setAccChars] = useState(0); // correct chars across completed snippets (display)
+  const accCharsRef = useRef(0);  // correct chars (source of truth)
+  const accTotalRef = useRef(0);  // total chars typed across completed snippets
 
   const containerRef = useRef<HTMLDivElement>(null);
   const caretRef = useRef<HTMLSpanElement>(null);
@@ -94,22 +84,16 @@ export default function TypingTest({ snippets, seenKey }: Props) {
   const snippetFinished = finishedAt !== null;
   const isOver = snippetFinished || timeDone;
 
-  // ── Reset ────────────────────────────────────────────────────────────────────
   const reset = useCallback((advance = false) => {
     setTyped("");
     setStartedAt(null);
     setFinishedAt(null);
     setNow(0);
-    setKeystrokes(0);
-    setErrors(0);
     setTimeDone(false);
     setTimeResult(null);
     setAccChars(0);
     accCharsRef.current = 0;
-    accKeysRef.current = 0;
-    accErrsRef.current = 0;
-    ksRef.current = 0;
-    errRef.current = 0;
+    accTotalRef.current = 0;
     if (advance) setPick((p) => p + 1);
     containerRef.current?.focus();
   }, []);
@@ -120,7 +104,6 @@ export default function TypingTest({ snippets, seenKey }: Props) {
     reset();
   }
 
-  // ── Skip (snippet mode) ──────────────────────────────────────────────────────
   function skip() {
     if (startedAt !== null && !isOver && typed.length >= 10) {
       const elapsedMs = Date.now() - startedAt;
@@ -130,7 +113,7 @@ export default function TypingTest({ snippets, seenKey }: Props) {
         snippetId: snippet.id,
         title: snippet.title,
         wpm: mins > 0 ? Math.round(cc / 5 / mins) : 0,
-        accuracy: keystrokes > 0 ? Math.round(((keystrokes - errors) / keystrokes) * 100) : 100,
+        accuracy: typed.length > 0 ? Math.round((cc / typed.length) * 100) : 100,
         elapsedMs,
         completedAt: Date.now(),
         partial: true,
@@ -139,23 +122,20 @@ export default function TypingTest({ snippets, seenKey }: Props) {
     reset(true);
   }
 
-  // ── Stop timed run early ──────────────────────────────────────────────────────
   function stopTimedRun() {
     if (startedAt === null) { reset(); return; }
     const elapsed = Date.now() - startedAt;
     const cc = typed.split("").filter((c, i) => c === target[i]).length;
     accCharsRef.current += cc;
-    accKeysRef.current += ksRef.current;
-    accErrsRef.current += errRef.current;
+    accTotalRef.current += typed.length;
     finaliseTimedRun(elapsed);
   }
 
   function finaliseTimedRun(elapsedMs: number) {
     const totalCorrect = accCharsRef.current;
-    const totalKeys = accKeysRef.current;
-    const totalErrs = accErrsRef.current;
+    const totalTyped = accTotalRef.current;
     const wpm = Math.round(totalCorrect / 5 / (elapsedMs / 60000));
-    const accuracy = totalKeys > 0 ? Math.round(((totalKeys - totalErrs) / totalKeys) * 100) : 100;
+    const accuracy = totalTyped > 0 ? Math.round((totalCorrect / totalTyped) * 100) : 100;
     saveRun({
       snippetId: `timed-${timeLimit}s`,
       title: `${timeLimit}s timed`,
@@ -164,7 +144,7 @@ export default function TypingTest({ snippets, seenKey }: Props) {
       elapsedMs,
       completedAt: Date.now(),
     });
-    setAccChars(accCharsRef.current);
+    setAccChars(totalCorrect);
     setTimeResult({ wpm, accuracy, chars: totalCorrect });
     setTimeDone(true);
   }
@@ -180,26 +160,23 @@ export default function TypingTest({ snippets, seenKey }: Props) {
     reset();
   }, [pool, seenKey, reset]);
 
-  // ── Live timer ───────────────────────────────────────────────────────────────
   useEffect(() => {
     if (startedAt === null || isOver) return;
     const id = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(id);
   }, [startedAt, isOver]);
 
-  // ── Detect time-mode end ─────────────────────────────────────────────────────
+  // Detect time-mode end
   useEffect(() => {
     if (mode !== "time" || startedAt === null || timeDone || now === 0) return;
     if (now - startedAt < timeLimit * 1000) return;
     const cc = typed.split("").filter((c, i) => c === target[i]).length;
     accCharsRef.current += cc;
-    accKeysRef.current += ksRef.current;
-    accErrsRef.current += errRef.current;
+    accTotalRef.current += typed.length;
     finaliseTimedRun(timeLimit * 1000);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [now]);
 
-  // ── Key handler ──────────────────────────────────────────────────────────────
   const handleKey = useCallback(
     (e: React.KeyboardEvent) => {
       if (e.key === "Escape") { e.preventDefault(); reset(); return; }
@@ -226,10 +203,6 @@ export default function TypingTest({ snippets, seenKey }: Props) {
         const expected = target[t.length];
         const correct = ch === expected;
 
-        ksRef.current++;
-        if (!correct) errRef.current++;
-        setKeystrokes((k) => k + 1);
-        if (!correct) setErrors((x) => x + 1);
         if (startedAt === null) setStartedAt(Date.now());
 
         let next = t + ch!;
@@ -239,16 +212,10 @@ export default function TypingTest({ snippets, seenKey }: Props) {
 
         if (next.length >= target.length) {
           if (currentMode === "time") {
-            // Accumulate this snippet's stats then advance
             const cc = [...next].filter((c, i) => c === target[i]).length;
             accCharsRef.current += cc;
-            accKeysRef.current += ksRef.current;
-            accErrsRef.current += errRef.current;
-            ksRef.current = 0;
-            errRef.current = 0;
+            accTotalRef.current += next.length;
             setAccChars(accCharsRef.current);
-            setKeystrokes(0);
-            setErrors(0);
             setPick((p) => p + 1);
             return "";
           } else {
@@ -265,7 +232,6 @@ export default function TypingTest({ snippets, seenKey }: Props) {
   useEffect(() => { caretRef.current?.scrollIntoView({ block: "nearest", behavior: "smooth" }); }, [typed]);
   useEffect(() => { if (snippetFinished && seenKey) markSeen(seenKey, snippet.id); }, [snippetFinished, seenKey, snippet.id]);
 
-  // Save run on snippet completion (snippet mode only)
   useEffect(() => {
     if (!snippetFinished || finishedAt === null || startedAt === null) return;
     saveRun({
@@ -279,7 +245,7 @@ export default function TypingTest({ snippets, seenKey }: Props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [snippetFinished]);
 
-  // ── Stats ────────────────────────────────────────────────────────────────────
+  // Stats (final-state accuracy: backspace and correct = better accuracy)
   const elapsedMs = startedAt === null ? 0 : (finishedAt ?? (now || Date.now())) - startedAt;
   const minutes = elapsedMs / 60000;
   const correctChars = useMemo(() => {
@@ -289,12 +255,11 @@ export default function TypingTest({ snippets, seenKey }: Props) {
   }, [typed, target]);
   const wpm = minutes > 0 ? Math.round(correctChars / 5 / minutes) : 0;
   const wpmLabel = startedAt === null || elapsedMs < 2000 ? "—" : String(wpm);
-  const accuracy = keystrokes > 0 ? Math.round(((keystrokes - errors) / keystrokes) * 100) : 100;
-  const accuracyLabel = keystrokes > 0 ? `${accuracy}%` : "—";
+  const accuracy = typed.length > 0 ? Math.round((correctChars / typed.length) * 100) : 100;
+  const accuracyLabel = typed.length > 0 ? `${accuracy}%` : "—";
   const totalWords = Math.round(target.length / 5);
   const typedWords = Math.round(correctChars / 5);
 
-  // Time mode live stats
   const liveNow = now || (startedAt ? Date.now() : 0);
   const remaining =
     mode === "time"
@@ -313,7 +278,6 @@ export default function TypingTest({ snippets, seenKey }: Props) {
 
   return (
     <section className={styles.wrap}>
-      {/* ── Mode bar ── */}
       <div className={styles.modeBar}>
         <button
           className={mode === "snippet" ? styles.modeActive : styles.modeBtn}
@@ -335,7 +299,6 @@ export default function TypingTest({ snippets, seenKey }: Props) {
         ))}
       </div>
 
-      {/* ── Meta row ── */}
       <div className={styles.meta}>
         <span className={styles.title}>{snippet.title}</span>
         <span className={`${styles.badge} ${styles[snippet.difficulty]}`}>
@@ -359,28 +322,29 @@ export default function TypingTest({ snippets, seenKey }: Props) {
         </p>
       )}
 
-      {/* ── Stats bar ── */}
-      {mode === "time" ? (
-        <div className={styles.stats}>
-          <div className={`${styles.stat} ${remaining !== null && remaining <= 5 ? styles.urgent : ""}`}>
-            <span className={styles.statValue} style={{ fontSize: 36 }}>
-              {remaining ?? timeLimit}
-            </span>
-            <span className={styles.statLabel}>seconds</span>
+      {/* Hide live stats once results are showing */}
+      {!isOver && (
+        mode === "time" ? (
+          <div className={styles.stats}>
+            <div className={`${styles.stat} ${remaining !== null && remaining <= 5 ? styles.urgent : ""}`}>
+              <span className={styles.statValue} style={{ fontSize: 36 }}>
+                {remaining ?? timeLimit}
+              </span>
+              <span className={styles.statLabel}>seconds</span>
+            </div>
+            <Stat label="wpm" value={liveTimeWpm > 0 ? String(liveTimeWpm) : "—"} />
+            <Stat label="acc" value={accuracyLabel} />
           </div>
-          <Stat label="wpm" value={liveTimeWpm > 0 ? String(liveTimeWpm) : "—"} />
-          <Stat label="acc" value={accuracyLabel} />
-        </div>
-      ) : (
-        <div className={styles.stats}>
-          <Stat label="wpm" value={wpmLabel} />
-          <Stat label="acc" value={accuracyLabel} />
-          <Stat label="time" value={`${(elapsedMs / 1000).toFixed(1)}s`} />
-          <Stat label="words" value={`${typedWords}/${totalWords}`} />
-        </div>
+        ) : (
+          <div className={styles.stats}>
+            <Stat label="wpm" value={wpmLabel} />
+            <Stat label="acc" value={accuracyLabel} />
+            <Stat label="time" value={`${(elapsedMs / 1000).toFixed(1)}s`} />
+            <Stat label="words" value={`${typedWords}/${totalWords}`} />
+          </div>
+        )
       )}
 
-      {/* ── Code box ── */}
       <div
         ref={containerRef}
         className={styles.code}
@@ -410,7 +374,6 @@ export default function TypingTest({ snippets, seenKey }: Props) {
         )}
       </div>
 
-      {/* ── Results / actions ── */}
       {isOver ? (
         mode === "time" && timeResult ? (
           <div className={styles.result}>
@@ -450,9 +413,7 @@ export default function TypingTest({ snippets, seenKey }: Props) {
       ) : (
         <div className={styles.actions}>
           {mode === "time" ? (
-            <button className={styles.ghost} onClick={stopTimedRun}>
-              stop
-            </button>
+            <button className={styles.ghost} onClick={stopTimedRun}>stop</button>
           ) : (
             <>
               <button className={styles.ghost} onClick={skip}>skip →</button>
@@ -465,15 +426,7 @@ export default function TypingTest({ snippets, seenKey }: Props) {
   );
 }
 
-function Stat({
-  label,
-  value,
-  big,
-}: {
-  label: string;
-  value: string | number;
-  big?: boolean;
-}) {
+function Stat({ label, value, big }: { label: string; value: string | number; big?: boolean }) {
   return (
     <div className={big ? styles.statBig : styles.stat}>
       <span className={styles.statValue}>{value}</span>
