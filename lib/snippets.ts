@@ -58,7 +58,7 @@ export const SNIPPETS: Snippet[] = [
     difficulty: "easy",
     language: "javascript",
     url: "https://leetcode.com/problems/valid-parentheses/",
-    code: `function isValid(s) {
+    code: `function is_valid(s) {
   const stack = [];
   const pairs = { ")": "(", "]": "[", "}": "{" };
   for (const ch of s) {
@@ -77,7 +77,7 @@ export const SNIPPETS: Snippet[] = [
     difficulty: "medium",
     language: "javascript",
     url: "https://leetcode.com/problems/maximum-subarray/",
-    code: `function maxSubArray(nums) {
+    code: `function max_subarray(nums) {
   let best = nums[0];
   let cur = nums[0];
   for (let i = 1; i < nums.length; i++) {
@@ -142,7 +142,7 @@ export const SNIPPETS: Snippet[] = [
     difficulty: "easy",
     language: "javascript",
     url: "https://leetcode.com/problems/valid-anagram/",
-    code: `function isAnagram(s, t) {
+    code: `function is_anagram(s, t) {
   if (s.length !== t.length) return false;
   const count = {};
   for (const c of s) count[c] = (count[c] || 0) + 1;
@@ -195,7 +195,7 @@ export const CONCEPTS: Snippet[] = [
     title: "Insertion Sort",
     difficulty: "easy",
     language: "javascript",
-    code: `function insertionSort(arr) {
+    code: `function insertion_sort(arr) {
   for (let i = 1; i < arr.length; i++) {
     const key = arr[i];
     let j = i - 1;
@@ -227,11 +227,11 @@ export const CONCEPTS: Snippet[] = [
     title: "Merge Sort",
     difficulty: "medium",
     language: "javascript",
-    code: `function mergeSort(arr) {
+    code: `function merge_sort(arr) {
   if (arr.length <= 1) return arr;
   const mid = Math.floor(arr.length / 2);
-  const left = mergeSort(arr.slice(0, mid));
-  const right = mergeSort(arr.slice(mid));
+  const left = merge_sort(arr.slice(0, mid));
+  const right = merge_sort(arr.slice(mid));
   const merged = [];
   let i = 0, j = 0;
   while (i < left.length && j < right.length) {
@@ -314,7 +314,7 @@ def heap_sort(arr):
     title: "Shell Sort",
     difficulty: "medium",
     language: "javascript",
-    code: `function shellSort(arr) {
+    code: `function shell_sort(arr) {
   const n = arr.length;
   for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {
     for (let i = gap; i < n; i++) {
@@ -403,7 +403,7 @@ def heap_sort(arr):
     title: "Longest Increasing Subsequence",
     difficulty: "medium",
     language: "javascript",
-    code: `function lengthOfLIS(nums) {
+    code: `function length_of_lis(nums) {
   const tails = [];
   for (const n of nums) {
     let lo = 0, hi = tails.length;
@@ -499,7 +499,7 @@ def topological_sort(graph, n):
     title: "Union-Find (DSU)",
     difficulty: "medium",
     language: "python",
-    code: `class UnionFind:
+    code: `class union_find:
     def __init__(self, n):
         self.parent = list(range(n))
         self.rank = [0] * n
@@ -639,10 +639,10 @@ def max_sliding_window(nums, k):
   },
   {
     id: "reverse-string-js",
-    title: "Reverse a String In Place",
+    title: "Reverse String In Place",
     difficulty: "easy",
     language: "javascript",
-    code: `function reverseString(chars) {
+    code: `function reverse_string(chars) {
   let lo = 0;
   let hi = chars.length - 1;
   while (lo < hi) {
@@ -723,14 +723,14 @@ def max_sliding_window(nums, k):
     title: "2-Node Linked List Reverse",
     difficulty: "easy",
     language: "cpp",
-    code: `struct Node{
+    code: `struct node{
     int val;
-    Node* next;
+    node* next;
 };
-Node* reverse(Node* head){
-    Node* prev=nullptr;
+node* reverse(node* head){
+    node* prev=nullptr;
     while(head){
-        Node* nxt=head->next;
+        node* nxt=head->next;
         head->next=prev;
         prev=head;
         head=nxt;
@@ -795,9 +795,9 @@ float circle_perimeter(float r){
     difficulty: "easy",
     language: "cpp",
     code: `string fizzbuzz(int n){
-    if(n%15==0) return "FizzBuzz";
-    if(n%3==0) return "Fizz";
-    if(n%5==0) return "Buzz";
+    if(n%15==0) return "fizzbuzz";
+    if(n%3==0) return "fizz";
+    if(n%5==0) return "buzz";
     return to_string(n);
 }`,
   },

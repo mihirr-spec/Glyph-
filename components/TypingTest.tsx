@@ -173,14 +173,6 @@ export default function TypingTest({ snippets, seenKey }: Props) {
           next += ws;
         }
 
-        // Auto-fill any inline spaces after a correct character so the typist
-        // focuses on meaningful symbols, not whitespace between tokens.
-        if (correct && expected !== "\n") {
-          while (next.length < target.length && target[next.length] === " ") {
-            next += " ";
-          }
-        }
-
         if (next.length >= target.length) {
           setFinishedAt(Date.now());
         }
