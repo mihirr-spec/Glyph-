@@ -80,23 +80,6 @@ export default function TypingTest({ snippets, seenKey }: Props) {
 
   const reset = useCallback(
     (advance = false) => {
-      // Save partial run if user skipped after typing something meaningful.
-      if (advance && startedAt !== null && !finished && typed.length >= 10) {
-        const elapsedMs = Date.now() - startedAt;
-        const mins = elapsedMs / 60000;
-        const cc = typed.split("").filter((c, i) => c === target[i]).length;
-        const ks = keystrokes;
-        const err = errors;
-        saveRun({
-          snippetId: snippet.id,
-          title: snippet.title,
-          wpm: mins > 0 ? Math.round(cc / 5 / mins) : 0,
-          accuracy: ks > 0 ? Math.round(((ks - err) / ks) * 100) : 100,
-          elapsedMs,
-          completedAt: Date.now(),
-          partial: true,
-        });
-      }
       setTyped("");
       setStartedAt(null);
       setFinishedAt(null);
@@ -106,9 +89,27 @@ export default function TypingTest({ snippets, seenKey }: Props) {
       if (advance) setPick((p) => p + 1);
       containerRef.current?.focus();
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [startedAt, finished, typed, keystrokes, errors, snippet, target]
+    []
   );
+
+  // Separate skip handler so partial-save logic never touches reset's dep array.
+  function skip() {
+    if (startedAt !== null && !finished && typed.length >= 10) {
+      const elapsedMs = Date.now() - startedAt;
+      const mins = elapsedMs / 60000;
+      const cc = typed.split("").filter((c, i) => c === target[i]).length;
+      saveRun({
+        snippetId: snippet.id,
+        title: snippet.title,
+        wpm: mins > 0 ? Math.round(cc / 5 / mins) : 0,
+        accuracy: keystrokes > 0 ? Math.round(((keystrokes - errors) / keystrokes) * 100) : 100,
+        elapsedMs,
+        completedAt: Date.now(),
+        partial: true,
+      });
+    }
+    reset(true);
+  }
 
   const shuffle = useCallback(() => {
     setOrder(orderUnseenFirst(pool, seenKey));
@@ -345,7 +346,7 @@ export default function TypingTest({ snippets, seenKey }: Props) {
         </div>
       ) : (
         <div className={styles.actions}>
-          <button className={styles.ghost} onClick={() => reset(true)}>
+          <button className={styles.ghost} onClick={skip}>
             skip →
           </button>
           <button className={styles.ghost} onClick={shuffle}>
